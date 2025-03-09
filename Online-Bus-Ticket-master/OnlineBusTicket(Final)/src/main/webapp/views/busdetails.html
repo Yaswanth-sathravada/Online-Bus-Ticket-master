@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-left: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin-right: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        center nav ul center li a:hover {
+            color: #ffa500;
+        }
+
+        nav ul li a:hover {
+            text-decoration: none;
+            color: #f4a005f7;
+        }
+
+        nav ul li:hover {
+            text-decoration: none;
+            color: #f4a005f7;
+        }
+
+        .form-container {
+            margin-top: 20px;
+        }
+
+        .card-header {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .card-body {
+            padding: 20px;
+            margin: 10px 10px;
+            overflow-x: auto;
+            /* Enable horizontal scrolling */
+        }
+
+        .btn-add {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        .btn-add:hover {
+            background-color: #45a049;
+        }
+
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background-color: #d32f2f;
+        }
+
+        /* CSS for source and destination dropdown fields */
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #007bff;
+            /* Change border color on focus */
+        }
+
+        /* Style the options in the dropdown */
+        option {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .copy {
+            text-align: center;
+            position: absolute;
+            bottom: -63%;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent black background */
+            padding: 10px 0;
+            color: #fff;
+            /* White text color */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Bus Booking</h1>
+        <div class="container">
+            <center>
+                <nav>
+                    <ul class="topnav">
+                        <li><a href="simple.html">Home</a></li>
+                        <li class="dropdown">
+                            <a href="assigningdriver.html">Driver Details</a>
+                        </li>
+                        <li><a href="busdetails.html">Bus Details</a></li>
+                        <li><a href="#">User Details</a></li>
+                        <li><a onclick="logout(window.location, href='index.html')">Logout</a></li>
+                    </ul>
+                </nav>
+            </center>
+        </div>
+    </header>
+    <br><br>
+    <div class="container">
+        <div class="row">
+            <!-- Form Container -->
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="mb-0">Add Bus Details</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="busForm" class="form-container">
+                            <div class="form-group">
+                                <input type="text" id="busNumber" class="form-control" placeholder="Bus Number"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <select id="busType" class="form-control" required>
+                                    <option value="" disabled selected>Select Bus Type</option>
+                                    <option value="AC">AC</option>
+                                    <option value="Non-AC">Non-AC</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="source">Source:</label>
+                                <select id="source" name="source" required>
+                                    <option value="" disabled selected>Select Source</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="destination">Destination:</label>
+                                <select id="destination" name="destination" required>
+                                    <option value="" disabled selected>Select Destination</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="departureDate">Departure Date:</label>
+                                <input type="date" id="departureDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="departureTime">Departure Time:</label>
+                                <input type="time" id="departureTime" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" id="price" class="form-control" placeholder="Price per Seat"
+                                    required>
+                            </div>
+                            <button type="submit" class="btn btn-add btn-block">Add Bus</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Bus Details Container -->
+            <div class="col-md-7">
+                <div id="busDetailsCard" class="card" style="display: auto;">
+                    <div class="card-header">
+                        <h2 class="mb-0">Bus Details</h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Bus Number</th>
+                                    <th>Bus Type</th>
+                                    <th>Source</th>
+                                    <th>Destination</th>
+                                    <th>Date & Time</th>
+                                    <th>Price per Seat</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="busList">
+                                <!-- Bus details will be appended here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Selected Bus Details Container -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="selectedBusDetails" class="card" style="display: none;">
+                    <div class="card-header">
+                        <h2 class="mb-0">Selected Bus Details</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="selectedBusNumber">Bus Number:</label>
+                            <input type="text" id="selectedBusNumber" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectedBusType">Bus Type:</label>
+                            <input type="text" id="selectedBusType" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectedSource">Source:</label>
+                            <input type="text" id="selectedSource" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectedDestination">Destination:</label>
+                            <input type="text" id="selectedDestination" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectedDateTime">Date & Time:</label>
+                            <input type="text" id="selectedDateTime" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectedPrice">Price per Seat:</label>
+                            <input type="text" id="selectedPrice" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const citiesIndia = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Surat", "Pune", "Jaipur", "Lucknow", "Kanpur", "Nagpur", "Visakhapatnam", "Indore", "Thane", "Bhopal", "Patna", "Vadodara", "Ghaziabad", "Ludhiana", "Coimbatore", "Agra", "Madurai", "Nashik", "Vijayawada", "Faridabad", "Meerut", "Rajkot", "Kalyan-Dombivli", "Vasai-Virar", "Varanasi", "Srinagar", "Aurangabad", "Dhanbad", "Amritsar", "Navi Mumbai", "Allahabad", "Ranchi", "Haora", "Jabalpur", "Gwalior", "Vijayawada"];
+
+        function populateCities() {
+            const sourceSelect = document.getElementById('source');
+            const destinationSelect = document.getElementById('destination');
+            const uniqueCities = [...new Set(citiesIndia)]; // Removing duplicates
+
+            uniqueCities.forEach(city => {
+                const option = document.createElement('option');
+                option.text = city;
+                option.value = city;
+                sourceSelect.add(option);
+
+                const option2 = document.createElement('option');
+                option2.text = city;
+                option2.value = city;
+                destinationSelect.add(option2);
+            });
+        }
+
+        populateCities();
+        $(document).ready(function () {
+            $("#busForm").submit(function (event) {
+                event.preventDefault();
+                var busNumber = $("#busNumber").val();
+                var busType = $("#busType").val();
+                var source = $("#source").val();
+                var destination = $("#destination").val();
+                var departureDate = $("#departureDate").val();
+                var departureTime = $("#departureTime").val();
+                var price = $("#price").val();
+
+                // Validate bus number
+                var busPlateRegex = /^[A-Z]{2}-\d{2}\s[A-Z]-\d{4}$/;
+                if (!busPlateRegex.test(busNumber)) {
+                    alert("Please enter a valid bus number plate.");
+                    return;
+                }
+
+                // Validate price
+                if (price <= 0) {
+                    alert("Please enter a valid price.");
+                    return;
+                }
+
+                // Validate passengers less than 4
+                var passengerCount = $("#busList tr").length;
+                if (passengerCount >= 4) {
+                    alert("Maximum 4 passengers allowed.");
+                    return;
+                }
+
+                var newRow = "<tr><td>" + busNumber + "</td><td>" + busType + "</td><td>" + source + "</td><td>" + destination + "</td><td>" + departureDate + " " + departureTime + "</td><td>$" + price + "</td><td><button class='btn btn-delete' onclick='deleteBus(this)'>Delete</button></td></tr>";
+                $("#busList").append(newRow);
+                $("#busDetailsCard").show(); // Show the bus details card
+                $("#busForm")[0].reset();
+            });
+
+            // Function to handle row click event and display selected bus details
+            $("#busList").on("click", "tr", function () {
+                var cells = $(this).find("td");
+                $("#selectedBusNumber").val(cells.eq(0).text());
+                $("#selectedBusType").val(cells.eq(1).text());
+                $("#selectedSource").val(cells.eq(2).text());
+                $("#selectedDestination").val(cells.eq(3).text());
+                $("#selectedDateTime").val(cells.eq(4).text());
+                $("#selectedPrice").val(cells.eq(5).text().replace("$", ""));
+                $("#selectedBusDetails").show();
+            });
+        });
+
+        function logout() {
+            // Perform any client-side cleanup actions here
+            localStorage.removeItem('token'); // Example: Clearing a stored authentication token
+            sessionStorage.clear(); // Example: Clearing all session storage data
+
+            // Redirect to the login page
+            window.location.href = "index.html";
+
+            // Prevent navigation back to the main page after logout
+            if (typeof history.pushState === 'function') {
+                history.pushState({}, '', 'index.html');
+            }
+        }
+
+        function deleteBus(button) {
+            $(button).closest("tr").remove();
+            var passengerCount = $("#busList tr").length;
+            if (passengerCount === 0) {
+                $("#busDetailsCard").hide(); // Hide the bus details card if there are no bus details
+            }
+        }
+    </script>
+    <div class="copy">
+        <h4 style="text-align: enter;">copyright &copy; 2024 Online Bus Limited. All rights reserved</h4>
+    </div>
+</body>
+
+</html>

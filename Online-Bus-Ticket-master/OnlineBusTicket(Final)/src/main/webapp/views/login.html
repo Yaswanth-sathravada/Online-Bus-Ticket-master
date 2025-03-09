@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-image: url('bus_image.jpg');
+            background-size: cover;
+            background-position: center;
+            padding-top: 50px;
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.5);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 15px 5px;
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            margin-top: -3.5%;
+        }
+
+        .navbar h1 {
+            color: #000000;
+            margin: 0;
+        }
+
+        .navbar a {
+            color: #000000;
+            text-decoration: none;
+            padding: 10px 15px;
+        }
+
+        .navbar a:hover {
+            background-color: #f89d9d;
+            color: rgb(146, 11, 11);
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Semi-transparent white background */
+            padding: 0px;
+            right: -50%;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            margin-bottom: 10px;
+            /* Add margin between buttons */
+        }
+
+        .forgot-password {
+            text-align: left;
+        }
+
+        .invalid-feedback {
+            color: red;
+            display: block;
+        }
+
+        .copy {
+            text-align: center;
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent black background */
+            padding: 10px 0;
+            color: #fff;
+            /* White text color */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>Bus Booking</h1>
+        <div>
+            <a href="./index.html">Home</a>
+            <a href="./login.html">Login</a>
+            <a href="./register.html">Register</a>
+            <a href="./about.html">About</a>
+            <a href="./contact.html">Contact Us</a>
+        </div>
+    </div><br><br><br>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3>Login Page</h3>
+            </div>
+            <div class="card-body">
+                <form id="loginForm" novalidate>
+                    <div class="form-group">
+                        <label for="loginEmail">Email:</label>
+                        <input type="email" id="loginEmail" name="loginEmail" class="form-control" required>
+                        <div class="invalid-feedback">Please enter a valid email address.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password:</label>
+                        <input type="password" id="loginPassword" name="loginPassword" class="form-control" required>
+                        <div class="invalid-feedback">Password is required.</div>
+                    </div>
+                    <!-- Forgot password field -->
+                    <div class="form-group forgot-password">Click here.
+                        <a href="ForgotPassword.html">Forgot Password?</a>
+                    </div>
+                    <!-- Login button -->
+                    <input type="button" class="btn btn-primary" value="Login" onclick="login()">
+                    <!-- Button to navigate to the registration page -->
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </form>
+                <!-- Popup message -->
+                <div id="popupMessage" style="display: none; text-align: center; margin-top: 20px;">
+                    <p id="messageText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            if (username === "admin@gmail.com" && password === "Admin@123") {
+                // Show success message
+                showMessage("Login successful!");
+                // Redirect to the admin page
+                window.location.href = 'simple.html';
+            } else {
+                // Show failure message
+                showMessage("Invalid username or password.");
+            }
+        }
+
+        function showMessage(message) {
+            // Display the popup message
+            document.getElementById("messageText").innerText = message;
+            document.getElementById("popupMessage").style.display = "block";
+            // Hide the popup message after 3 seconds
+            setTimeout(function () {
+                document.getElementById("popupMessage").style.display = "none";
+            }, 3000);
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            if (this.checkValidity()) {
+                const formData = new FormData(this);
+                fetch('/auth/Loginin', {
+                    method: 'POST',
+                    body: JSON.stringify(Object.fromEntries(formData)),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        alert(data.message);
+                        if (data.success) {
+                            // Redirect or perform any other action upon successful login
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            } else {
+                event.stopPropagation();
+                this.classList.add('was-validated');
+            }
+        });
+    </script>
+    <div class="copy">
+        <h4 style="text-align: enter;">copyright &copy; 2024 Online Bus Limited. All rights reserved</h4>
+    </div>
+</body>
+
+</html>

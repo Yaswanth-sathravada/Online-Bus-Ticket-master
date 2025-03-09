@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bus Booking</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global Styles */
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #59B2F4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            margin-bottom: auto;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-left: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin-right: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ffa500;
+        }
+
+        /* footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    } */
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgb(66, 181, 66);
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .editBtn {
+            padding: 6px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .modified {
+            background-color: #FFD700;
+            /* Yellow color for modified rows */
+        }
+
+        .copy {
+            text-align: center;
+            position: absolute;
+            bottom: -42.4%;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent black background */
+            padding: 10px 0;
+            color: #fff;
+            /* White text color */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Bus Booking</h1>
+        <div class="container">
+            <nav>
+                <ul class="topnav">
+                    <li><a href="UserSimple.html">Home</a></li>
+                    <li><a href="UserProfile.html"> User Profile </a></li>
+                    <li><a href="../src/main/webapp/views/index.html"> Search Buses</a></li>
+                    <li><a href="UserBooking.html"> Booking Status</a></li>
+                    <li><a href="UserPayment.html"> Payment Status</a></li>
+                    <li>
+                        <a onclick="logout(window.location, href='../frontend/login.html')">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Your table content goes here -->
+    <table id="userTable">
+        <tr>
+            <th>Name</th>
+            <th>Mobile No</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>John Doe</td>
+            <td>1234567890</td>
+            <td>30</td>
+            <td>john@example.com</td>
+            <td>Male</td>
+            <td><button class="editBtn" onclick="editRow(this)">Edit</button></td>
+        </tr>
+    </table>
+
+    <footer>
+        <div class="copy">
+            <h4>Copyright &copy; 2024 Online Bus Limited. All rights reserved</h4>
+        </div>
+    </footer>
+
+    <script>
+        function logout() {
+            // Perform any client-side cleanup actions here
+            localStorage.removeItem("token"); // Example: Clearing a stored authentication token
+            sessionStorage.clear(); // Example: Clearing all session storage data
+
+            // Redirect to the login page
+            window.location.href = "../frontend/index.html";
+
+            // Prevent navigation back to the main page after logout
+            if (typeof history.pushState === "function") {
+                history.pushState({}, "", "../frontend/index.html");
+            }
+        }
+
+        function editRow(btn) {
+            var row = btn.parentNode.parentNode;
+            var cells = row.getElementsByTagName("td");
+            for (var i = 0; i < cells.length - 1; i++) { // Excluding the last cell (Action)
+                var cellValue = cells[i].innerHTML;
+                cells[i].innerHTML = "<input type='text' value='" + cellValue + "'>";
+            }
+            var editBtn = row.querySelector(".editBtn");
+            editBtn.innerHTML = "Save";
+            editBtn.setAttribute("onclick", "saveRow(this)");
+        }
+
+        function saveRow(btn) {
+            var row = btn.parentNode.parentNode;
+            var cells = row.getElementsByTagName("td");
+            for (var i = 0; i < cells.length - 1; i++) { // Excluding the last cell (Action)
+                var input = cells[i].getElementsByTagName("input")[0];
+                var cellValue = input.value;
+                cells[i].innerHTML = cellValue;
+            }
+            row.classList.add("modified"); // Add class to indicate modification
+            var editBtn = row.querySelector(".editBtn");
+            editBtn.innerHTML = "Edit";
+            editBtn.setAttribute("onclick", "editRow(this)");
+        }
+    </script>
+
+</body>
+
+</html>

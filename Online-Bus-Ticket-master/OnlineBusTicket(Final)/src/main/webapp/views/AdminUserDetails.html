@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bus Booking</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global Styles */
+        body {
+            background-image: url('bus3.jpg');
+            background-size: cover;
+            background-position: top;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            margin-bottom: auto;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-left: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin-right: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ffa500;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Bus Booking</h1>
+        <div class="container">
+            <nav>
+                <ul class="topnav">
+                    <li><a href="simple.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="assigningdriver.html">Driver Details</a>
+                        <!-- <div class="dropdown-content">
+                      <a href="assigningdriver.html">Assigning the Driver</a>
+                      <a href="driverdetails.html">Driver Details</a>
+                    </div> -->
+                    </li>
+                    <li><a href="busdetails.html">Bus Details</a></li>
+                    <li><a href="#">User Details</a></li>
+                    <li><a onclick="logout(window.location, href='index.html')">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <footer>
+        <div class="copy">
+            <h4 style="text-align: center;">copyright &copy; 2024 Online Bus Limited. All rights reserved</h4>
+        </div>
+    </footer>
+
+    <script>
+        function logout() {
+            // Perform any client-side cleanup actions here
+            localStorage.removeItem("token"); // Example: Clearing a stored authentication token
+            sessionStorage.clear(); // Example: Clearing all session storage data
+
+            // Redirect to the login page
+            window.location.href = "index.html";
+
+            // Prevent navigation back to the main page after logout
+            if (typeof history.pushState === "function") {
+                history.pushState({}, "", "index.html");
+            }
+        }
+    </script>
+</body>
+
+</html>
